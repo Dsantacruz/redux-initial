@@ -29,8 +29,9 @@
 
         //III. REDUCER es una funcion que regresa un nuevo estado
         // y también decimos que toma dos parámetros (state, action)
+        //el reducer al final termina retornando un nuevo estado
         function reducer(state, action)
-        {
+        {//con object.assign genero una copia de mi estado, redux maneja la immutabilidad
             var nuevoEstado = Object.assign({}, state);
             if(action.type === 'AUM')
             {
@@ -38,6 +39,11 @@
                 nuevoEstado.cantidad = state.cantidad + 1;
                 console.log(nuevoEstado.cantidad)
                 console.log(self.state.cantidad)
+                return nuevoEstado;
+            }
+            else if(action.type === 'DIS')
+            {
+                nuevoEstado.cantidad = state.cantidad - 1;
                 return nuevoEstado;
             }
 
@@ -50,11 +56,21 @@
             type : 'AUM'
         }
 
+        var actionDisminuir = {
+            type : 'DIS'
+        }
+
         //V. DISPATCH ejecuta la llamada al store y pasa el tipo de acción
 
         var aumentar = function () 
         {
             store.dispatch(actionAumentar);
+        }
+
+        var disminuir = function()
+        {
+            //console.log("disminuir");
+            store.dispatch(actionDisminuir);
         }
 
         var numero = document.getElementById('numero');

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
+    <title>Todo App</title>
+</head>
+<body>
+    <h2>Todo App</h2>
+    <br>
+
+    <label for="">Ingresar tarea</label>
+    <input id="texto" onkeypress="agregarTarea(event)">
+    <!-- evento para función -->
+
+    <ul id="listaDesordenada">
+
+    </ul>
+
+    <script type="text/javascript">
+
+        //JUEGO DE REDUX
+
+        //I. Crear el STATE inicial
+        var state = 
+        {
+            lista : []
+        }
+
+        //II. Crear el STORE
+        //reducer es una funcion
+        var store = Redux.createStore(reducer, state);
+
+        //III. REDUCER
+        //el reducer es llamado por el store, el reducer siempre tiene que hacer el return, por lo menos debe retornar el mismo state
+        //maneja la logica de la modificacion de los estados
+        function reducer(state, action)
+        {
+            return state;
+        }
+
+        //IV. ACTION 
+        /*var actionA = 
+        {
+            type : 'AGR'
+        }*/
+
+        //IV.2 ACTION CREATOR
+        var actionAgregar = function (tarea, id)
+        {
+            return {
+                type : 'AGR',
+                tarea,
+                id
+            }
+        }
+
+        var agregarTarea = function (evento) 
+        {
+            if(evento.keyCode === 13)
+            {
+                console.log(evento);
+                console.log(evento.target.value);
+                evento.target.value = "";
+            }
+        }
+
+        //store.dispatch(actionAgregar(tarea, id))
+    </script>
+</body>
+</html>
