@@ -36,8 +36,39 @@
         //III. REDUCER
         //el reducer es llamado por el store, el reducer siempre tiene que hacer el return, por lo menos debe retornar el mismo state
         //maneja la logica de la modificacion de los estados
+        //quien ve la logica de las acciones es el reducer
         function reducer(state, action)
         {
+            var nuevoEstado = Object.assign({}, state);
+
+            if(action.type === "AGR")
+            {
+                /*nuevoEstado.lista.push({
+                    id: action.id,
+                    li: "<li> "+ action.tarea + "<button id='"+ action.id +"' onClick='eliminarTarea(id)'>Eliminar</button>" + "</li>"
+                });*/
+                nuevoEstado.lista = state.lista.concat
+                (
+                    [
+                        {
+                            id: action.id,
+                            li: "<li> "+ action.tarea + "<button id='"+ action.id +"' onClick='eliminarTarea(id)'>Eliminar</button>" + "</li>"
+                        }
+                    ]
+                );
+                //<button id='(action.id)1' onClick='eliminarTarea(id)'>
+                //console.log(nuevoEstado);
+                return nuevoEstado;
+            }
+            else if(action.type === "ELM")
+            {
+                nuevoEstado.lista = state.lista.filter(function (elemento) {
+                    return parseInt(elemento.id) !== parseInt(action.id)
+                })
+
+                return nuevoEstado;
+            }
+
             return state;
         }
 
@@ -57,17 +88,51 @@
             }
         }
 
+        var actionEliminar = function (id) 
+        {
+            return {
+                type : 'ELM',
+                id
+            }
+        }
+
+        var id = 1;
+
         var agregarTarea = function (evento) 
         {
             if(evento.keyCode === 13)
             {
-                console.log(evento);
-                console.log(evento.target.value);
+                var tarea = evento.target.value;
+                /*console.log(evento);
+                console.log(evento.target.value);*/
                 evento.target.value = "";
+                store.dispatch(actionAgregar(tarea, id));
+                id = id + 1;
             }
         }
 
-        //store.dispatch(actionAgregar(tarea, id))
+        var eliminarTarea = function (_id)
+        {
+            console.log(_id);
+            store.dispatch(actionEliminar(_id));
+        }
+
+        var mostrarTareas = function ()
+        {
+            var listaD = document.getElementById('listaDesordenada');
+
+            var elementos = store.getState().lista;
+
+            var mostrarElementos = elementos.map(function (elemento) {
+                return elemento.li;
+            })
+
+            listaD.innerHTML = mostrarElementos;
+        }
+
+        //mostar los elementos cada que hay una modificacion en el //state de la STORE
+        store.subscribe(mostrarTareas);
+
     </script>
 </body>
 </html>
